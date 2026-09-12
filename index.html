@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Scanner QR Santri</title>
+
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    h2 {
+      color: #1f4d3b;
+    }
+
+    #reader {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    #hasil {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #dff5e5;
+      font-size: 18px;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h2>📷 SCANNER QR SANTRI</h2>
+
+  <p>Arahkan kamera ke QR Code kartu santri.</p>
+
+  <div id="reader"></div>
+
+  <div id="hasil"></div>
+
+</div>
+
+<script>
+
+let scanner = new Html5Qrcode("reader");
+
+function berhasilScan(decodedText) {
+
+  // Hentikan kamera
+  scanner.stop().then(function() {
+
+    scanner.clear();
+
+    // Tampilkan hasil
+    const hasil = document.getElementById("hasil");
+
+    hasil.style.display = "block";
+
+    hasil.innerHTML =
+      "ID SANTRI TERBACA:<br><br>" +
+      decodedText;
+
+  }).catch(function(error) {
+
+    console.log(error);
+
+  });
+
+}
+
+
+// Mulai kamera
+scanner.start(
+  {
+    facingMode: "environment"
+  },
+  {
+    fps: 10,
+    qrbox: {
+      width: 250,
+      height: 250
+    }
+  },
+  berhasilScan,
+  function(errorMessage) {
+    // QR belum terbaca
+  }
+).catch(function(error) {
+
+  document.getElementById("reader").innerHTML =
+    "<p style='color:red;'>" +
+    "Kamera tidak dapat digunakan.<br>" +
+    error +
+    "</p>";
+
+});
+
+</script>
+
+</body>
+</html>
