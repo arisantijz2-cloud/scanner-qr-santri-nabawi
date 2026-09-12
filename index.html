@@ -65,19 +65,18 @@ let scanner = new Html5Qrcode("reader");
 
 function berhasilScan(decodedText) {
 
-  // Hentikan kamera
   scanner.stop().then(function() {
 
     scanner.clear();
 
-    // Tampilkan hasil
-    const hasil = document.getElementById("hasil");
+    const idSantri = decodedText.trim();
 
-    hasil.style.display = "block";
+    // Buka aplikasi Tabungan Santri
+    const urlAplikasi =
+      "https://script.google.com/macros/s/AKfycbwQzR1VjRxDNIO1gpWfWogw3k6IvCZZPPTKO3RskZa0cBPUDLjzlaoDfRE247MIm2YQ/exec"
+      + "?id=" + encodeURIComponent(idSantri);
 
-    hasil.innerHTML =
-      "ID SANTRI TERBACA:<br><br>" +
-      decodedText;
+    window.location.href = urlAplikasi;
 
   }).catch(function(error) {
 
